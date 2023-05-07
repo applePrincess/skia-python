@@ -2258,6 +2258,7 @@ canvas
             const std::vector<SkRSXform>& xform,
             const std::vector<SkRect>& tex,
             const std::vector<SkColor>& colors,
+            const SkSamplingOptions& sampling,
             SkBlendMode mode, const SkRect* cullRect, const SkPaint* paint) {
             if (xform.size() != tex.size())
                 throw std::runtime_error(
@@ -2267,7 +2268,7 @@ canvas
                     "colors must have the same length with xform.");
             canvas.drawAtlas(atlas, &xform[0], &tex[0],
                 (colors.empty()) ? nullptr : &colors[0],
-                xform.size(), mode, cullRect, paint);
+                xform.size(), mode, sampling, cullRect, paint);
         },
         R"docstring(
         Draws a set of sprites from atlas, using clip, :py:class:`Matrix`, and
@@ -2303,7 +2304,7 @@ canvas
             `None`
         )docstring",
         py::arg("atlas"), py::arg("xform"), py::arg("tex"), py::arg("colors"),
-        py::arg("mode"), py::arg("cullRect") = nullptr,
+        py::arg("mode"), py::arg("sampling"), py::arg("cullRect") = nullptr,
         py::arg("paint") = nullptr)
     // .def("drawAtlas",
     //     py::overload_cast<const sk_sp<SkImage>&, const SkRSXform[],
