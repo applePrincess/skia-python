@@ -119,10 +119,10 @@ py::enum_<SkCanvas::SaveLayerFlagsSet>(
     .value("kInitWithPrevious_SaveLayerFlag",
         SkCanvas::SaveLayerFlagsSet::kInitWithPrevious_SaveLayerFlag,
         "initializes with previous contents")
-    .value("kMaskAgainstCoverage_EXPERIMENTAL_DONT_USE_SaveLayerFlag",
-        SkCanvas::SaveLayerFlagsSet::
-        kMaskAgainstCoverage_EXPERIMENTAL_DONT_USE_SaveLayerFlag,
-        "experimental: do not use")
+  // .value("kMaskAgainstCoverage_EXPERIMENTAL_DONT_USE_SaveLayerFlag",
+  //     SkCanvas::SaveLayerFlagsSet::
+  //     kMaskAgainstCoverage_EXPERIMENTAL_DONT_USE_SaveLayerFlag,
+  //     "experimental: do not use")
     .value("kF16ColorType",
         SkCanvas::SaveLayerFlagsSet::kF16ColorType)
     .export_values();
