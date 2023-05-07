@@ -981,7 +981,7 @@ canvas
         py::arg("matrix"))
     .def("concat", py::overload_cast<const SkM44&>(&SkCanvas::concat),
         py::arg("m44"))
-    .def("setMatrix", &SkCanvas::setMatrix,
+    .def("setMatrix", py::overload_cast<const SkM44&>(&SkCanvas::setMatrix),
         R"docstring(
         Replaces :py:class:`Matrix` with matrix.
 
