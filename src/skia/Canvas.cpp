@@ -1802,7 +1802,7 @@ canvas
     //     "clip, SkMatrix, and optional SkPaint paint.")
     .def("drawImageNine",
         py::overload_cast<const SkImage*, const SkIRect&, const SkRect&,
-            const SkPaint*>(&SkCanvas::drawImageNine),
+            SkFilterMode, const SkPaint*>(&SkCanvas::drawImageNine),
         R"docstring(
         Draws :py:class:`Image` image stretched proportionally to fit into
         :py:class:`Rect` dst.
@@ -1842,7 +1842,7 @@ canvas
             :py:class:`ImageFilter`, and so on; or nullptr
         )docstring",
         py::arg("image"), py::arg("center"), py::arg("dst"),
-        py::arg("paint") = nullptr)
+        py::arg("filter"), py::arg("paint") = nullptr)
     // .def("drawImageNine",
     //     py::overload_cast<const sk_sp<SkImage>&, const SkIRect&,
     //         const SkRect&, const SkPaint*>(&SkCanvas::drawImageNine))
