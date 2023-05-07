@@ -199,6 +199,8 @@ py::class_<SkPDF::AttributeList>(pdf, "AttributeList")
         py::arg("owner"), py::arg("name"), py::arg("value"))
     .def("appendStringArray", &SkPDF::AttributeList::appendStringArray,
         py::arg("owner"), py::arg("name"), py::arg("value"))
+    .def("appendNodeIdArray", &SkPDF::AttributeList::appendNodeIdArray,
+        py::arg("owner"), py::arg("attrName"), py::arg("nodeIds"))
     ;
 
 py::class_<SkPDF::StructureElementNode>(pdf, "StructureElementNode",
