@@ -137,7 +137,14 @@ py::class_<SkColorFilters>(m, "ColorFilters")
                 inner);
         },
         py::arg("outer"), py::arg("inner"))
-    .def_static("Blend", &SkColorFilters::Blend, py::arg("c"), py::arg("mode"))
+    .def_static("Blend",
+        [] (const SkColor4f& c, sk_sp<SkColorSpace> space, SkBlendMode mode) {
+            return SkColorFilters::Blend(
+                c,
+                space,
+                mode);
+        },
+        py::arg("c"), py::arg("space").none(true), py::arg("mode"))
     // .def_static("Matrix",
     //     py::overload_cast<const SkColorMatrix&>(&SkColorFilters::Matrix))
     .def_static("Matrix",
