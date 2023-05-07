@@ -117,8 +117,7 @@ colorfilter
         [] (py::buffer b) {
             auto info = b.request();
             auto flattenable = SkColorFilter::Deserialize(
-                SkColorFilter::GetFlattenableType(), info.ptr,
-                info.shape[0] * info.strides[0]);
+                info.ptr, info.shape[0] * info.strides[0]);
             return sk_sp<SkColorFilter>(
                 reinterpret_cast<SkColorFilter*>(flattenable.release()));
         },
