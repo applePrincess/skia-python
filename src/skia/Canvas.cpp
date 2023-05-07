@@ -1846,33 +1846,35 @@ canvas
     // .def("drawImageNine",
     //     py::overload_cast<const sk_sp<SkImage>&, const SkIRect&,
     //         const SkRect&, const SkPaint*>(&SkCanvas::drawImageNine))
-    .def("drawBitmap", &SkCanvas::drawBitmap,
-        R"docstring(
-        Draws :py:class:`Bitmap` bitmap, with its top-left corner at (left,
-        top), using clip, :py:class:`Matrix`, and optional :py:class:`Paint`
-        paint.
 
-        If :py:class:`Paint` paint is not nullptr, apply
-        :py:class:`ColorFilter`, alpha, :py:class:`ImageFilter`,
-        :py:class:`BlendMode`, and :py:class:`DrawLooper`. If bitmap is
-        :py:attr:`ColorType.kAlpha_8_ColorType`, apply :py:class:`Shader`. If
-        paint contains :py:class:`MaskFilter`, generate mask from bitmap bounds.
+    // TODO: add implement drawBitmap ourself so that it will be backward compatible
+    // .def("drawBitmap", &SkCanvas::drawBitmap,
+    //     R"docstring(
+    //     Draws :py:class:`Bitmap` bitmap, with its top-left corner at (left,
+    //     top), using clip, :py:class:`Matrix`, and optional :py:class:`Paint`
+    //     paint.
 
-        If generated mask extends beyond bitmap bounds, replicate bitmap edge
-        colors, just as :py:class:`Shader` made from
-        :py:meth:`Shader.MakeBitmapShader` with :py:attr:`TileMode.kClamp` set
-        replicates the bitmap edge color when it samples outside of its bounds.
+    //     If :py:class:`Paint` paint is not nullptr, apply
+    //     :py:class:`ColorFilter`, alpha, :py:class:`ImageFilter`,
+    //     :py:class:`BlendMode`, and :py:class:`DrawLooper`. If bitmap is
+    //     :py:attr:`ColorType.kAlpha_8_ColorType`, apply :py:class:`Shader`. If
+    //     paint contains :py:class:`MaskFilter`, generate mask from bitmap bounds.
 
-        :param skia.Bitmap bitmap:  :py:class:`Bitmap` containing pixels,
-            dimensions, and format
-        :param left: left side of bitmap
-        :param top: top side of bitmap
-        :param paint: :py:class:`Paint` containing :py:class:`BlendMode`,
-            :py:class:`ColorFilter`, :py:class:`ImageFilter`, and so on; or
-            nullptr
-        )docstring",
-        py::arg("bitmap"), py::arg("left"), py::arg("top"),
-        py::arg("paint") = nullptr)
+    //     If generated mask extends beyond bitmap bounds, replicate bitmap edge
+    //     colors, just as :py:class:`Shader` made from
+    //     :py:meth:`Shader.MakeBitmapShader` with :py:attr:`TileMode.kClamp` set
+    //     replicates the bitmap edge color when it samples outside of its bounds.
+
+    //     :param skia.Bitmap bitmap:  :py:class:`Bitmap` containing pixels,
+    //         dimensions, and format
+    //     :param left: left side of bitmap
+    //     :param top: top side of bitmap
+    //     :param paint: :py:class:`Paint` containing :py:class:`BlendMode`,
+    //         :py:class:`ColorFilter`, :py:class:`ImageFilter`, and so on; or
+    //         nullptr
+    //     )docstring",
+    //     py::arg("bitmap"), py::arg("left"), py::arg("top"),
+    //     py::arg("paint") = nullptr)
     .def("drawBitmapRect",
         py::overload_cast<const SkBitmap&, const SkRect&, const SkRect&,
             const SkPaint*, SkCanvas::SrcRectConstraint>(
