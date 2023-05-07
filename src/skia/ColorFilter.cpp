@@ -53,9 +53,9 @@ py::class_<SkColorFilter, sk_sp<SkColorFilter>, SkFlattenable> colorfilter(
         ~skia.TableColorFilter
     )docstring");
 
-py::enum_<SkColorFilter::Flags>(colorfilter, "Flags", py::arithmetic())
-    .value("kAlphaUnchanged_Flag", SkColorFilter::kAlphaUnchanged_Flag)
-    .export_values();
+// py::enum_<SkColorFilter::Flags>(colorfilter, "Flags", py::arithmetic())
+//     .value("kAlphaUnchanged_Flag", SkColorFilter::kAlphaUnchanged_Flag)
+//     .export_values();
 
 colorfilter
     .def("asAColorMode", &ColorFilterAsAColorMode,
@@ -85,12 +85,14 @@ colorfilter
         )docstring")
     // .def("appendStages", &SkColorFilter::appendStages)
     // .def("program", &SkColorFilter::program)
-    .def("getFlags", &SkColorFilter::getFlags,
-        R"docstring(
-        Returns the flags for this filter.
+  .def("isAlphaUnchanged", &SkColorFilter::isAlphaUnchanged)
+  // Deprecated: Maybe implement ourself for backward compatibility
+  // .def("getFlags", &SkColorFilter::getFlags,
+  //     R"docstring(
+  //     Returns the flags for this filter.
 
-        Override in subclasses to return custom flags.
-        )docstring")
+  //     Override in subclasses to return custom flags.
+  //     )docstring")
     .def("filterColor", &SkColorFilter::filterColor, py::arg("color"))
     .def("filterColor4f", &SkColorFilter::filterColor4f,
         R"docstring(
