@@ -9,7 +9,7 @@ namespace {
 py::object ColorFilterAsAColorMode(SkColorFilter& colorFilter) {
     SkColor color;
     SkBlendMode mode;
-    auto result = colorFilter.asColorMode(&color, &mode);
+    auto result = colorFilter.asAColorMode(&color, &mode);
     if (result)
         return py::make_tuple(color, mode);
     else
@@ -58,7 +58,6 @@ py::enum_<SkColorFilter::Flags>(colorfilter, "Flags", py::arithmetic())
     .export_values();
 
 colorfilter
-    .def("asColorMode", &ColorFilterAsAColorMode)
     .def("asAColorMode", &ColorFilterAsAColorMode,
         R"docstring(
         If the filter can be represented by a source color plus Mode, this
