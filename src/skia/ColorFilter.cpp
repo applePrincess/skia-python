@@ -131,10 +131,10 @@ py::class_<SkColorMatrix>(m, "ColorMatrix")
 
 py::class_<SkColorFilters>(m, "ColorFilters")
     .def_static("Compose",
-        [] (const SkColorFilter& outer, const SkColorFilter& inner) {
+        [] (sk_sp<SkColorFilter> outer, sk_sp<SkColorFilter> inner) {
             return SkColorFilters::Compose(
-                CloneFlattenable<SkColorFilter>(outer),
-                CloneFlattenable<SkColorFilter>(inner));
+                outer,
+                inner);
         },
         py::arg("outer"), py::arg("inner"))
     .def_static("Blend", &SkColorFilters::Blend, py::arg("c"), py::arg("mode"))
