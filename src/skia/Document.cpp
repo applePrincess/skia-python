@@ -5,28 +5,6 @@ namespace {
 
 typedef struct _PyPDF {} PyPDF;
 
-py::object appendStringArray(SkPDF::AttributeList& attrs,
-                             const char* owner,
-                             const char* attrName,
-                             const std::vector<SkString>& values) {
-  PyErr_WarnEx(PyExc_DeprecationWarning,
-               "SkPDF::AttributeList::appendStringArray is deprecated use SkPDF::AttributeList::appendNodeIdArray instead",
-               1);
-    if (!fAttrs)
-        fAttrs = SkPDFMakeArray();
-    std::unique_ptr<SkPDFDict> attrDict = SkPDFMakeDict();
-    attrDict->insertName("O", owner);
-    std::unique_ptr<SkPDFArray> pdfArray = SkPDFMakeArray();
-    for (SkString element : value) {
-        pdfArray->appendName(element);
-        for (SkString element : values) {
-            pdfArray->appendString(element);
-        }
-        attrDict->insertObject(name, std::move(pdfArray));
-        fAttrs->appendObject(std::move(attrDict));
-    }
-    return py::none();
-}
 // Helper to support with statement.
 class PyAutoDocumentPage {
 public:
@@ -219,7 +197,6 @@ py::class_<SkPDF::AttributeList>(pdf, "AttributeList")
         py::arg("owner"), py::arg("name"), py::arg("value"))
     .def("appendFloatArray", &SkPDF::AttributeList::appendFloatArray,
         py::arg("owner"), py::arg("name"), py::arg("value"))
-    .def("appendStringArray", &appendStringArray)
     .def("appendNodeIdArray", &SkPDF::AttributeList::appendNodeIdArray,
         py::arg("owner"), py::arg("attrName"), py::arg("nodeIds"))
     ;
