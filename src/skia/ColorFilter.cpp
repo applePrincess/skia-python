@@ -9,7 +9,7 @@ namespace {
 py::object ColorFilterAsAColorMode(SkColorFilter& colorFilter) {
     SkColor color;
     SkBlendMode mode;
-    auto result = colorFilter.asColorMode(&color, &mode);
+    auto result = colorFilter.asAColorMode(&color, &mode);
     if (result)
         return py::make_tuple(color, mode);
     else
@@ -53,12 +53,11 @@ py::class_<SkColorFilter, sk_sp<SkColorFilter>, SkFlattenable> colorfilter(
         ~skia.TableColorFilter
     )docstring");
 
-py::enum_<SkColorFilter::Flags>(colorfilter, "Flags", py::arithmetic())
-    .value("kAlphaUnchanged_Flag", SkColorFilter::kAlphaUnchanged_Flag)
-    .export_values();
+// py::enum_<SkColorFilter::Flags>(colorfilter, "Flags", py::arithmetic())
+//     .value("kAlphaUnchanged_Flag", SkColorFilter::kAlphaUnchanged_Flag)
+//     .export_values();
 
 colorfilter
-    .def("asColorMode", &ColorFilterAsAColorMode)
     .def("asAColorMode", &ColorFilterAsAColorMode,
         R"docstring(
         If the filter can be represented by a source color plus Mode, this
@@ -86,12 +85,14 @@ colorfilter
         )docstring")
     // .def("appendStages", &SkColorFilter::appendStages)
     // .def("program", &SkColorFilter::program)
-    .def("getFlags", &SkColorFilter::getFlags,
-        R"docstring(
-        Returns the flags for this filter.
+  .def("isAlphaUnchanged", &SkColorFilter::isAlphaUnchanged)
+  // Deprecated: Maybe implement ourself for backward compatibility
+  // .def("getFlags", &SkColorFilter::getFlags,
+  //     R"docstring(
+  //     Returns the flags for this filter.
 
-        Override in subclasses to return custom flags.
-        )docstring")
+  //     Override in subclasses to return custom flags.
+  //     )docstring")
     .def("filterColor", &SkColorFilter::filterColor, py::arg("color"))
     .def("filterColor4f", &SkColorFilter::filterColor4f,
         R"docstring(
@@ -116,8 +117,7 @@ colorfilter
         [] (py::buffer b) {
             auto info = b.request();
             auto flattenable = SkColorFilter::Deserialize(
-                SkColorFilter::GetFlattenableType(), info.ptr,
-                info.shape[0] * info.strides[0]);
+                info.ptr, info.shape[0] * info.strides[0]);
             return sk_sp<SkColorFilter>(
                 reinterpret_cast<SkColorFilter*>(flattenable.release()));
         },
@@ -131,13 +131,14 @@ py::class_<SkColorMatrix>(m, "ColorMatrix")
 
 py::class_<SkColorFilters>(m, "ColorFilters")
     .def_static("Compose",
-        [] (const SkColorFilter& outer, const SkColorFilter& inner) {
+        [] (sk_sp<SkColorFilter> outer, sk_sp<SkColorFilter> inner) {
             return SkColorFilters::Compose(
-                CloneFlattenable<SkColorFilter>(outer),
-                CloneFlattenable<SkColorFilter>(inner));
+                outer,
+                inner);
         },
         py::arg("outer"), py::arg("inner"))
-    .def_static("Blend", &SkColorFilters::Blend, py::arg("c"), py::arg("mode"))
+    .def_static("Blend", py::overload_cast<const SkColor4f&, sk_sp<SkColorSpace>, SkBlendMode>(&SkColorFilters::Blend),
+        py::arg("c"), py::arg("space").none(true), py::arg("mode"))
     // .def_static("Matrix",
     //     py::overload_cast<const SkColorMatrix&>(&SkColorFilters::Matrix))
     .def_static("Matrix",
