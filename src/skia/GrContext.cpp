@@ -91,8 +91,6 @@ py::enum_<GrGLBackendState>(m, "GrGLBackendState", R"docstring(
         GrGLBackendState::kFixedFunction_GrGLBackendState)
     .value("kMisc_GrGLBackendState",
         GrGLBackendState::kMisc_GrGLBackendState)
-    .value("kPathRendering_GrGLBackendState",
-        GrGLBackendState::kPathRendering_GrGLBackendState)
     .value("kALL_GrGLBackendState",
         GrGLBackendState::kALL_GrGLBackendState)
     .export_values();
